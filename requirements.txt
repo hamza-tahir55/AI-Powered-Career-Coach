@@ -1,0 +1,10 @@
+jupyter==1.0.0
+notebook==7.0.7
+ipykernel==6.29.0
+numpy==1.26.3
+pandas==2.1.4
+matplotlib==3.8.2
+python-dotenv==1.0.0
+google-generativeai==0.3.2
+crewai==0.11.0
+langchain==0.1.0 
