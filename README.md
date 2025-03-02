@@ -3,7 +3,7 @@ AI-powered career assistant automating resume evaluation, job search, and learni
 
 **AI-Powered Career Assistant for Resume Evaluation, Job Search, and Learning Roadmaps**
 
-Klippie Concierge is an **Agentic SaaS** that automates **resume evaluation, real-time job search, and weekly study roadmap generation** using cutting-edge AI technologies.
+AI-Powered-Career-Coach is an **Agentic AI** that automates **resume evaluation, real-time job search, and weekly study roadmap generation** using cutting-edge AI technologies.
 
 ## Features
 - **Resume Evaluation & Scoring:** AI-based CV assessment with detailed improvement suggestions.
@@ -27,8 +27,8 @@ Klippie Concierge is an **Agentic SaaS** that automates **resume evaluation, rea
 ## Installation
 ```bash
 # Clone the repository
-git clone https://github.com/username/klippie-concierge.git
-cd klippie-concierge
+git clone https://github.com/usernamehamza-tahir55/AI-Powered-Career-Coach.git
+
 
 # Install dependencies
 pip install -r requirements.txt
