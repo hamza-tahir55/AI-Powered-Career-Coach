@@ -45,11 +45,6 @@ jupyter notebook app.ipynb
 - Google Gemini API
 - Serper.dev API
 
-## Roadmap
-- [ ] Resume PDF Upload
-- [ ] Job Alerts
-- [ ] Interview Question Generation
-- [ ] Skill Progress Tracking
 
 ## Contributing
 Contributions are welcome! Feel free to fork the repository and submit pull requests.
