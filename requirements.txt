@@ -1,6 +1,6 @@
 streamlit==1.32.0
-crewAI==0.23.2
-crewAI-tools==0.1.4
+crewai
+crewAI-tools
 litellm==0.1.616
 langchain==0.1.10
 langchain_google_genai==0.0.6
