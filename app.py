@@ -13,7 +13,7 @@ import docx
 import crewai
 import crewai_tools
 from crewai import Agent, Task, Crew
-from crewai_tools.tools import SerperDevTool
+from crewai_tools import SerperDevTool
 import streamlit as st
 
 os.environ["SERPER_API_KEY"] = "2fff7596aaa8d12d0cadd0cacc9a1fb9a34cb4e3"
