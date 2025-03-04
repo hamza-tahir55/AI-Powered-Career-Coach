@@ -11,3 +11,4 @@ openai
 google-generativeai
 requests
 pydantic
+chromadb
