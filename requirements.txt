@@ -7,7 +7,6 @@ langchain_google_genai
 python-dotenv
 pymupdf
 python-docx
-serper
 openai
 google-generativeai
 requests
