@@ -12,36 +12,40 @@ import fitz
 import docx
 import crewai
 import crewai_tools
-
 from crewai import Agent, Task, Crew
 from crewai_tools import SerperDevTool
+import streamlit as st
 
 os.environ["SERPER_API_KEY"] = "2fff7596aaa8d12d0cadd0cacc9a1fb9a34cb4e3"
 search_tool = SerperDevTool()
 
 
 
+
 load_dotenv()
 
 # Configure litellm with Gemini
-os.environ["OPENAI_API_KEY"] = "your key"  # Your Gemini API key
-litellm.api_key = "your key"  # Your Gemini API key
+os.environ["OPENAI_API_KEY"] = "AIzaSyCSq35o-1vLYe3bKjKRoGNezTJNRmDMEx0"  # Your Gemini API key
+litellm.api_key = "AIzaSyCSq35o-1vLYe3bKjKRoGNezTJNRmDMEx0"  # Your Gemini API key
 
 # Initialize the model
 llm = ChatOpenAI(
     model_name="gemini/gemini-1.5-flash",
     temperature=0.5,
-    openai_api_key="your key ",  # Your Gemini API key
-    max_tokens=1000
+    openai_api_key="AIzaSyAh5D_Qtu9-cfNQz12Q4NIfUwKVLVmrhgA",  # Your Gemini API key
 )
 
-def extract_text_from_pdf(file_path):
+def extract_text_from_pdf(file):
     """Extracts text from pdf"""
-    doc = fitz.open(file_path)
-    text = ""
-    for page in doc:
-        text += page.get_text()
-    return text
+    try:
+        doc = fitz.open(stream=file.read(), filetype="pdf")
+        text = ""
+        for page in doc:
+            text += page.get_text()
+        return text
+    except Exception as e:
+        st.error(f"Error extracting text: {e}")
+        return None
 
 def extract_text_from_docx(file_path):
     """Extracts text from docx"""
@@ -60,8 +64,12 @@ def extract_text_from_resume(file_path):
     else:
         return "Unsupported file type"
     
-res1 = extract_text_from_resume("/path/to/your/file")
+res1 = extract_text_from_resume("/Users/hamzatahir/Documents/MHamza_Resume1.pdf")
 print(res1)
+
+
+
+
 
 resume_feedback_agent = Agent(
     role="Professional Resume Advisor",
@@ -70,8 +78,6 @@ resume_feedback_agent = Agent(
     verbose=True,
     llm=llm,
 )
-
-
 
 resume_feedback_task = Task(
     description=(
@@ -109,7 +115,6 @@ resume_advisor_task = Task(
     agent= resume_advisor_agent
 )
 
-
 job_researcher_agent = Agent(
     role="Senior Recruitment Consultant",
     goal = " Find the 5 most relevant, recently posted jobs based on the improved resume recieved from resume advisor and the location preference",
@@ -121,64 +126,84 @@ job_researcher_agent = Agent(
 
 research_task = Task(
     description=
-        """ Find the 5 most relevant recent job openings based on the improved resume recieved from the resume advisor and location preference. This is preferred location: {location}.
-        Use the tools to gather relevant content and shortlist the 5 most relevant, recent,  job openings.
+        """Find the **5 most recent and relevant job openings** based on the improved resume received from the resume advisor and location preference.
+        This is preferred location: {location}.
+        Use the tools to gather job postings, and **only return Job Title and Link** for each job.
+        Do not include descriptions — just **bullet points** with Title + Link.
+        Dont say you can't list you have to list it no matter what
         """,
 
-    expected_output=("A bullet points list of the 5 job openings, with the appropriate links and detailed description about each job, in markdown format."
-    ),
-    agent= job_researcher_agent
+    expected_output=("A bullet points list of 5 job openings with the following format:\n"
+    "- **Job Title**\n"
+    "- [Apply Here](Job_URL)"),
+    agent=job_researcher_agent
 )
 
 
-roadmap_agent = Agent(
-    role="Education Consultant",
-    goal="Create a weekly learning roadmap by researching the most relevant roadmaps available on the internet.",
-    tools=[search_tool],
-    backstory=(
-        "You're a top-tier education consultant who finds and organizes learning roadmaps for any skill. "
-        "You know how to find the best, up-to-date roadmaps and convert them into detailed 6-8 week study plans."
-    ),
+Interview_agent = Agent(
+    role="Interview Preparation Coach",
+    goal="Generate 10-15 tailored interview questions along with detailed, high-quality sample answers based on the user's skills and the provided job description.",
+    backstory="You are an experienced Interview Preparation Coach specializing in helping candidates excel in job interviews. Your role is to craft relevant, industry-specific questions and model answers to guide users in their preparation, boosting their confidence and readiness.",
     verbose=True,
     llm=llm
 )
 
-roadmap_task = Task(
-    description=(
-        "Search for the best online roadmaps for {skill}. "
-        "Select the most comprehensive roadmap and break it down into a 6-8 week structured study plan. "
-        "Each week should cover 3-5 key topics with links to learning resources."
-    ),
+
+Interview_task = Task(
+    description=
+        """Based on the user's skills, job description, and the improved resume received from the Resume Advisor, generate 10-15 highly relevant interview questions. 
+        Cover both **technical** and **behavioral** aspects of the job role.
+        Provide **detailed sample answers** with best practices, ensuring the answers align with the job requirements and highlight the user's strengths.
+        Format the output in **markdown** with clear headings and bullet points.
+        """,
+
     expected_output=(
-        "Weekly Study Plan in markdown format with topics, resources, and learning objectives."
+        "A markdown-formatted: \n"
+        "- 10-15 interview questions (divided into Technical and Behavioral categories).\n"
+        "- Detailed sample answers for each question.\n"
+        "- Tips on how to structure the answers (e.g., STAR method or Any Other Method).\n"
+        "- Suggestions for improvement where necessary."
     ),
-    agent=roadmap_agent,
+    agent=Interview_agent
 )
 
 
 crew = Crew(
-    agents=[resume_feedback_agent, resume_advisor_agent, job_researcher_agent, roadmap_agent],
-    tasks= [resume_feedback_task,resume_advisor_task,  research_task, roadmap_task],
+    agents=[resume_feedback_agent, resume_advisor_agent, job_researcher_agent, Interview_agent],
+    tasks= [resume_feedback_task,resume_advisor_task,  research_task, Interview_task],
     verbose=True
 
 )
+# Streamlit UI
+st.title("AI - Career Coach 🚀")
+st.subheader("Your Personalized Job Preparation Assistant")
 
-result = crew.kickoff(inputs={"resume": res1, "location": "Islamabad", "skill":"AI-Engineer"})
+uploaded_file = st.file_uploader("Upload Your Resume (PDF only)", type=["pdf"])
+location = st.text_input("Preferred Job Location", placeholder="e.g. Islamabad, Lahore, Karachi")
 
-from IPython.display import Markdown, display
-Markdown_content = resume_feedback_task.output.raw.strip("'''markdown").strip("'''").strip()
-display(Markdown(Markdown_content))
+if uploaded_file and location:
+    st.success("✅ Resume Uploaded Successfully!")
+    resume_text = extract_text_from_pdf(uploaded_file)
 
-from IPython.display import Markdown, display
-Markdown_content = resume_advisor_task.output.raw.strip("'''markdown").strip("'''").strip()
-display(Markdown(Markdown_content))
+    if st.button("Start Career Coaching"):
+        st.info("🔍 Generating Results... Please wait")
+        result = crew.kickoff(inputs={"resume": resume_text, "location": location})
 
-from IPython.display import Markdown, display
-Markdown_content = research_task.output.raw.strip("'''markdown").strip("'''").strip()
-display(Markdown(Markdown_content))
+        # Display Results
+        st.subheader("1. Resume Feedback")
+        st.markdown(resume_feedback_task.output.raw, unsafe_allow_html=True)
 
+        st.subheader("2. Improved Resume")
+        st.markdown(resume_advisor_task.output.raw, unsafe_allow_html=True)
 
+        st.subheader("3. Job Openings")
+        st.markdown(research_task.output.raw, unsafe_allow_html=True)
 
+        st.subheader("4. Interview Preparation")
+        st.markdown(Interview_task.output.raw, unsafe_allow_html=True)
 
+        st.success("✅ All tasks completed successfully!")
 
-
+# Footer
+st.markdown("---")
+st.caption("Powered by **Agentic AI** | Built with CrewAI + Gemini + Streamlit")
