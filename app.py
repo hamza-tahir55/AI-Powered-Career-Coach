@@ -139,6 +139,30 @@ research_task = Task(
     agent=job_researcher_agent
 )
 
+roadmap_agent = Agent(
+    role="Education Consultant",
+    goal="Create a weekly learning roadmap by researching the most relevant roadmaps available on the internet.",
+    tools=[search_tool],
+    backstory=(
+        "You're a top-tier education consultant who finds and organizes learning roadmaps for any skill. "
+        "You know how to find the best, up-to-date roadmaps and convert them into detailed 6-8 week study plans."
+    ),
+    verbose=True,
+    llm=llm
+)
+
+roadmap_task = Task(
+    description=(
+        "Search for the best online roadmaps for {skill}. "
+        "Select the most comprehensive roadmap and break it down into a 6-8 week structured study plan. "
+        "Each week should cover 3-5 key topics with links to learning resources."
+    ),
+    expected_output=(
+        "Weekly Study Plan in markdown format with topics, resources, and learning objectives."
+    ),
+    agent=roadmap_agent,
+)
+
 
 Interview_agent = Agent(
     role="Interview Preparation Coach",
@@ -169,8 +193,8 @@ Interview_task = Task(
 
 
 crew = Crew(
-    agents=[resume_feedback_agent, resume_advisor_agent, job_researcher_agent, Interview_agent],
-    tasks= [resume_feedback_task,resume_advisor_task,  research_task, Interview_task],
+    agents=[resume_feedback_agent, resume_advisor_agent, job_researcher_agent,roadmap_agent, Interview_agent],
+    tasks= [resume_feedback_task,resume_advisor_task,  research_task, roadmap_task, Interview_task],
     verbose=True
 
 )
@@ -180,6 +204,7 @@ st.subheader("Your Personalized Job Preparation Assistant")
 
 uploaded_file = st.file_uploader("Upload Your Resume (PDF only)", type=["pdf"])
 location = st.text_input("Preferred Job Location", placeholder="e.g. Islamabad, Lahore, Karachi")
+skill = st.text_input("Preferred Skill", placeholder="e.g. DevOps, AI Engineer")
 
 if uploaded_file and location:
     st.success("✅ Resume Uploaded Successfully!")
@@ -187,7 +212,7 @@ if uploaded_file and location:
 
     if st.button("Start Career Coaching"):
         st.info("🔍 Generating Results... Please wait")
-        result = crew.kickoff(inputs={"resume": resume_text, "location": location})
+        result = crew.kickoff(inputs={"resume": resume_text, "location": location, "skill":"AI-Engineer"})
 
         # Display Results
         st.subheader("1. Resume Feedback")
@@ -198,6 +223,9 @@ if uploaded_file and location:
 
         st.subheader("3. Job Openings")
         st.markdown(research_task.output.raw, unsafe_allow_html=True)
+
+        st.subheader("4. Roadmap")
+        st.markdown(roadmap_task.output.raw, unsafe_allow_html=True)
 
         st.subheader("4. Interview Preparation")
         st.markdown(Interview_task.output.raw, unsafe_allow_html=True)
