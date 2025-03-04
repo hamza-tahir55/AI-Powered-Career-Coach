@@ -3,6 +3,11 @@
 # !pip install python-docx
 # !pip install pymupdf
 # !pip install crewai crewai-tools
+import sys
+import pysqlite3
+
+sys.modules["sqlite3"] = pysqlite3
+
 
 from dotenv import load_dotenv
 import os
