@@ -11,3 +11,4 @@ langchain==0.1.0
 LiteLLM
 pymupdf
 python-docx
+crewai_tools
