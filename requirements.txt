@@ -12,3 +12,4 @@ google-generativeai
 requests
 pydantic
 chromadb
+pysqlite3-binary
