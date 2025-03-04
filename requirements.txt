@@ -12,3 +12,4 @@ LiteLLM
 pymupdf
 python-docx
 crewai_tools
+serperdevtool
