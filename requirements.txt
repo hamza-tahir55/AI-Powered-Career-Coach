@@ -1,6 +1,6 @@
 streamlit
 crewai
-crewai-tools
+crewai_tools
 litellm
 langchain
 langchain_google_genai
