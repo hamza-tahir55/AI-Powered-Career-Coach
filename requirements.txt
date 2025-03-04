@@ -12,4 +12,10 @@ LiteLLM
 pymupdf
 python-docx
 crewai_tools
-serperdevtool
+crewai==0.13.8
+crewai-tools==0.2.0
+streamlit==1.42.2
+serper==0.1.4
+python-docx
+openai
+
