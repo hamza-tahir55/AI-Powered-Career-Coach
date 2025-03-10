@@ -21,7 +21,7 @@ from crewai import Agent, Task, Crew
 from crewai_tools import SerperDevTool
 import streamlit as st
 
-os.environ["SERPER_API_KEY"] = "2fff7596aaa8d12d0cadd0cacc9a1fb9a34cb4e3"
+os.environ["SERPER_API_KEY"] = "your API key"
 search_tool = SerperDevTool()
 
 
@@ -30,14 +30,14 @@ search_tool = SerperDevTool()
 load_dotenv()
 
 # Configure litellm with Gemini
-os.environ["OPENAI_API_KEY"] = "AIzaSyCSq35o-1vLYe3bKjKRoGNezTJNRmDMEx0"  # Your Gemini API key
-litellm.api_key = "AIzaSyCSq35o-1vLYe3bKjKRoGNezTJNRmDMEx0"  # Your Gemini API key
+os.environ["OPENAI_API_KEY"] = "Your API Key"  # Your Gemini API key
+litellm.api_key = "Your API Key"  # Your Gemini API key
 
 # Initialize the model
 llm = ChatOpenAI(
     model_name="gemini/gemini-1.5-flash",
     temperature=0.5,
-    openai_api_key="AIzaSyAh5D_Qtu9-cfNQz12Q4NIfUwKVLVmrhgA",  # Your Gemini API key
+    openai_api_key="Your API Key",  # Your Gemini API key
 )
 
 def extract_text_from_pdf(file):
