@@ -31,6 +31,7 @@ load_dotenv()
 
 # Configure litellm with Gemini
 gemini_api_key = os.getenv("GEMINI_API_KEY", "AIzaSyDnn7-eyDQ5Cb3DKbdmUbu4jIw-O3bTtSM")  # Get from .env file
+os.environ["GEMINI_API_KEY"] = gemini_api_key
 os.environ["OPENAI_API_KEY"] = gemini_api_key
 
 # Initialize the model with Gemini
