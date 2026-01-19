@@ -35,7 +35,7 @@ os.environ["GEMINI_API_KEY"] = gemini_api_key
 
 # Initialize the model with Gemini using CrewAI's LLM class
 llm = LLM(
-    model="gemini/gemini-1.5-flash",
+    model="gemini/gemini-2.5-flash",
     api_key=gemini_api_key
 )
 
