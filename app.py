@@ -31,15 +31,14 @@ load_dotenv()
 
 # Configure litellm with DeepSeek
 deepseek_api_key = os.getenv("DEEPSEEK_API_KEY", "sk-2e541143af014ebf8f70681786bf2ca2")  # Get from .env file
-os.environ["OPENAI_API_KEY"] = deepseek_api_key
-litellm.api_key = deepseek_api_key
+os.environ["DEEPSEEK_API_KEY"] = deepseek_api_key
 
 # Initialize the model with DeepSeek
 llm = ChatOpenAI(
-    model_name="deepseek/deepseek-chat",
+    model="deepseek-chat",
     temperature=0.5,
-    openai_api_key=deepseek_api_key,
-    base_url="https://api.deepseek.com/v1"
+    api_key=deepseek_api_key,
+    base_url="https://api.deepseek.com"
 )
 
 def extract_text_from_pdf(file):
