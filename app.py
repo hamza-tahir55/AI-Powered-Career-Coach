@@ -25,7 +25,7 @@ os.environ["SERPER_API_KEY"] = "2fff7596aaa8d12d0cadd0cacc9a1fb9a34cb4e3"
 search_tool = SerperDevTool()
 
 
-
+    
 
 load_dotenv()
 
@@ -220,19 +220,19 @@ if uploaded_file and location:
 
         # Display Results
         st.subheader("1. Resume Feedback")
-        st.markdown(resume_feedback_task.output.raw, unsafe_allow_html=True)
+        st.markdown(result.tasks_outputs[0].raw, unsafe_allow_html=True)
 
         st.subheader("2. Improved Resume")
-        st.markdown(resume_advisor_task.output.raw, unsafe_allow_html=True)
+        st.markdown(result.tasks_outputs[1].raw, unsafe_allow_html=True)
 
         st.subheader("3. Job Openings")
-        st.markdown(research_task.output.raw, unsafe_allow_html=True)
+        st.markdown(result.tasks_outputs[2].raw, unsafe_allow_html=True)
 
         st.subheader("4. Roadmap")
-        st.markdown(roadmap_task.output.raw, unsafe_allow_html=True)
+        st.markdown(result.tasks_outputs[3].raw, unsafe_allow_html=True)
 
-        st.subheader("4. Interview Preparation")
-        st.markdown(Interview_task.output.raw, unsafe_allow_html=True)
+        st.subheader("5. Interview Preparation")
+        st.markdown(result.tasks_outputs[4].raw, unsafe_allow_html=True)
 
         st.success("✅ All tasks completed successfully!")
 
