@@ -29,14 +29,14 @@ search_tool = SerperDevTool()
 
 load_dotenv()
 
-# Configure API Key for Gemini
-gemini_api_key = os.getenv("GEMINI_API_KEY", "AIzaSyDnn7-eyDQ5Cb3DKbdmUbu4jIw-O3bTtSM")
-os.environ["GEMINI_API_KEY"] = gemini_api_key
+# Configure API Key for DeepSeek
+deepseek_api_key = os.getenv("DEEPSEEK_API_KEY", "sk-2e541143af014ebf8f70681786bf2ca2")
+os.environ["DEEPSEEK_API_KEY"] = deepseek_api_key
 
-# Initialize the model with Gemini using CrewAI's LLM class
+# Initialize the model with DeepSeek using CrewAI's LLM class
 llm = LLM(
-    model="gemini/gemini-2.0-flash",
-    api_key=gemini_api_key
+    model="deepseek/deepseek-chat",
+    api_key=deepseek_api_key
 )
 
 def extract_text_from_pdf(file):
@@ -199,8 +199,8 @@ Interview_task = Task(
 crew = Crew(
     agents=[resume_feedback_agent, resume_advisor_agent, job_researcher_agent,roadmap_agent, Interview_agent],
     tasks= [resume_feedback_task,resume_advisor_task,  research_task, roadmap_task, Interview_task],
-    verbose=True,
-    max_rpm=2 # Limit requests per minute to avoid hitting Gemini free tier limits
+    verbose=True
+
 )
 # Streamlit UI
 st.title("AI - Career Coach 🚀")
