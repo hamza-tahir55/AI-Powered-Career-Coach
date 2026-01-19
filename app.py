@@ -35,7 +35,7 @@ os.environ["GEMINI_API_KEY"] = gemini_api_key
 
 # Initialize the model with Gemini using CrewAI's LLM class
 llm = LLM(
-    model="gemini/gemini-2.5-flash",
+    model="gemini/gemini-2.0-flash",
     api_key=gemini_api_key
 )
 
@@ -199,8 +199,8 @@ Interview_task = Task(
 crew = Crew(
     agents=[resume_feedback_agent, resume_advisor_agent, job_researcher_agent,roadmap_agent, Interview_agent],
     tasks= [resume_feedback_task,resume_advisor_task,  research_task, roadmap_task, Interview_task],
-    verbose=True
-
+    verbose=True,
+    max_rpm=2 # Limit requests per minute to avoid hitting Gemini free tier limits
 )
 # Streamlit UI
 st.title("AI - Career Coach 🚀")
