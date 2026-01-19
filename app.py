@@ -30,6 +30,7 @@ search_tool = SerperDevTool()
 load_dotenv()
 
 # Configure API Key for DeepSeek
+litellm.telemetry = False
 deepseek_api_key = os.getenv("DEEPSEEK_API_KEY", "sk-2e541143af014ebf8f70681786bf2ca2")
 os.environ["DEEPSEEK_API_KEY"] = deepseek_api_key
 
@@ -220,19 +221,19 @@ if uploaded_file and location:
 
         # Display Results
         st.subheader("1. Resume Feedback")
-        st.markdown(result.tasks_outputs[0].raw, unsafe_allow_html=True)
+        st.markdown(result.tasks_output[0].raw, unsafe_allow_html=True)
 
         st.subheader("2. Improved Resume")
-        st.markdown(result.tasks_outputs[1].raw, unsafe_allow_html=True)
+        st.markdown(result.tasks_output[1].raw, unsafe_allow_html=True)
 
         st.subheader("3. Job Openings")
-        st.markdown(result.tasks_outputs[2].raw, unsafe_allow_html=True)
+        st.markdown(result.tasks_output[2].raw, unsafe_allow_html=True)
 
         st.subheader("4. Roadmap")
-        st.markdown(result.tasks_outputs[3].raw, unsafe_allow_html=True)
+        st.markdown(result.tasks_output[3].raw, unsafe_allow_html=True)
 
         st.subheader("5. Interview Preparation")
-        st.markdown(result.tasks_outputs[4].raw, unsafe_allow_html=True)
+        st.markdown(result.tasks_output[4].raw, unsafe_allow_html=True)
 
         st.success("✅ All tasks completed successfully!")
 
