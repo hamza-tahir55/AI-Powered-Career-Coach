@@ -36,7 +36,7 @@ os.environ["OPENAI_API_KEY"] = gemini_api_key
 
 # Initialize the model with Gemini
 llm = ChatOpenAI(
-    model="gemini/gemini-1.5-flash",
+    model="gemini/gemini-1.5-flash-001",
     temperature=0.5,
     openai_api_key=gemini_api_key
 )
