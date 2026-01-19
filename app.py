@@ -11,7 +11,7 @@ sys.modules["sqlite3"] = pysqlite3
 
 from dotenv import load_dotenv
 import os
-from langchain.chat_models import ChatOpenAI
+from langchain_openai import ChatOpenAI
 import litellm
 import fitz
 import docx
