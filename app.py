@@ -11,7 +11,7 @@ sys.modules["sqlite3"] = pysqlite3
 
 from dotenv import load_dotenv
 import os
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 import litellm
 import fitz
 import docx
@@ -29,16 +29,15 @@ search_tool = SerperDevTool()
 
 load_dotenv()
 
-# Configure litellm with Gemini
-gemini_api_key = os.getenv("GEMINI_API_KEY", "AIzaSyDnn7-eyDQ5Cb3DKbdmUbu4jIw-O3bTtSM")  # Get from .env file
-os.environ["GEMINI_API_KEY"] = gemini_api_key
-os.environ["OPENAI_API_KEY"] = gemini_api_key
+# Configure API Key for Gemini
+gemini_api_key = os.getenv("GEMINI_API_KEY", "AIzaSyDnn7-eyDQ5Cb3DKbdmUbu4jIw-O3bTtSM")
+os.environ["GOOGLE_API_KEY"] = gemini_api_key
 
 # Initialize the model with Gemini
-llm = ChatOpenAI(
-    model="gemini/gemini-1.5-flash-001",
+llm = ChatGoogleGenerativeAI(
+    model="gemini-1.5-flash",
     temperature=0.5,
-    openai_api_key=gemini_api_key
+    google_api_key=gemini_api_key
 )
 
 def extract_text_from_pdf(file):
