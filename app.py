@@ -29,15 +29,17 @@ search_tool = SerperDevTool()
 
 load_dotenv()
 
-# Configure litellm with Gemini
-os.environ["OPENAI_API_KEY"] = "AIzaSyCSq35o-1vLYe3bKjKRoGNezTJNRmDMEx0"  # Your Gemini API key
-litellm.api_key = "AIzaSyCSq35o-1vLYe3bKjKRoGNezTJNRmDMEx0"  # Your Gemini API key
+# Configure litellm with DeepSeek
+deepseek_api_key = os.getenv("DEEPSEEK_API_KEY", "sk-2e541143af014ebf8f70681786bf2ca2")  # Get from .env file
+os.environ["OPENAI_API_KEY"] = deepseek_api_key
+litellm.api_key = deepseek_api_key
 
-# Initialize the model
+# Initialize the model with DeepSeek
 llm = ChatOpenAI(
-    model_name="gemini/gemini-1.5-flash",
+    model_name="deepseek/deepseek-chat",
     temperature=0.5,
-    openai_api_key="Your API Key",  # Your Gemini API key
+    openai_api_key=deepseek_api_key,
+    base_url="https://api.deepseek.com/v1"
 )
 
 def extract_text_from_pdf(file):
