@@ -17,7 +17,7 @@ import fitz
 import docx
 import crewai
 import crewai_tools
-from crewai import Agent, Task, Crew
+from crewai import Agent, Task, Crew, LLM
 from crewai_tools import SerperDevTool
 import streamlit as st
 
@@ -31,13 +31,12 @@ load_dotenv()
 
 # Configure API Key for Gemini
 gemini_api_key = os.getenv("GEMINI_API_KEY", "AIzaSyDnn7-eyDQ5Cb3DKbdmUbu4jIw-O3bTtSM")
-os.environ["GOOGLE_API_KEY"] = gemini_api_key
+os.environ["GEMINI_API_KEY"] = gemini_api_key
 
-# Initialize the model with Gemini
-llm = ChatGoogleGenerativeAI(
-    model="gemini-1.5-flash",
-    temperature=0.5,
-    google_api_key=gemini_api_key
+# Initialize the model with Gemini using CrewAI's LLM class
+llm = LLM(
+    model="gemini/gemini-1.5-flash",
+    api_key=gemini_api_key
 )
 
 def extract_text_from_pdf(file):
